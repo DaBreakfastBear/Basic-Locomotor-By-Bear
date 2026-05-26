@@ -25,6 +25,12 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     namespace = 'com.qualcomm.ftcrobotcontroller'
-}
+    //new thingy
+    packaging {
+        jniLibs {
+            pickFirsts.add("**/*.so")
+        }
+    }
+    }
 
 apply from: '../build.dependencies.gradle'
