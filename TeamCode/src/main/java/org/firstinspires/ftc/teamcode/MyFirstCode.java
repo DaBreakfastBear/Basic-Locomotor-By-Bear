@@ -1,52 +1,64 @@
 package org.firstinspires.ftc.teamcode;
-// this is importing stuff
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name="MyFirstCode")
+@TeleOp(name="something")
 public class MyFirstCode extends LinearOpMode {
+    public enum ArmState {
+        LEFT,
+        MIDDLE,
+        RIGHT
+    }
 
     @Override
     public void runOpMode() {
-        // declare servo
-        Servo myServo;
-        myServo = hardwareMap.get(Servo.class, "servo_zero");
+        Servo GOATEDservo;
+            GOATEDservo = hardwareMap.get(Servo.class, "servo_zero");
+        ArmState currentPosition = ArmState.LEFT;
 
-        telemetry.addData("Status", "Initialized! Press Play.");
+        telemetry.addData("Status", "Lets go baby!");
         telemetry.update();
 
         boolean isOpen = false;
         boolean lastGamepad1A = false;
 
-        //robot pauses until i hit start on controller
-        waitForStart();
-
-        //runs until i hit stop
-        while (opModeIsActive()) {
-            //if I press a then servo moves to position0
-            if (gamepad1.a && !lastGamepad1A) {
-
-                if (isOpen) {
-                    myServo.setPosition(0.44);
-                    isOpen = false;
-                }else {
-                    myServo.setPosition(0.56);
-                    isOpen = true;
+            waitForStart();
+            while (opModeIsActive()) {
+                if (gamepad1.a && !lastGamepad1A){
+                    isOpen = !isOpen;
+                    if(isOpen) {
+                        currentPosition = ArmState.RIGHT;
+                    }
+                    else {
+                        currentPosition = ArmState.LEFT;
+                    }
                 }
-            }
-            lastGamepad1A = gamepad1.a;
+                lastGamepad1A = gamepad1.a;
 
-            if (isOpen) {
-                telemetry.addData("to the left!", "yay!");
-            } else {
-                telemetry.addData("to the right!", "wheeee");
-            }
+                if (gamepad1.b)
+                    currentPosition = ArmState.MIDDLE;
 
-            //show driver when is being pressed
-            telemetry.addData("Servo Status", "Running");
-            telemetry.update();
-        }
+                if (currentPosition == ArmState.RIGHT){
+                    GOATEDservo.setPosition(0.44);
+                    telemetry.addData("status", "quack quack");
+                    telemetry.update();
+                }
+                else if (currentPosition == ArmState.MIDDLE){
+                    GOATEDservo.setPosition(0.5);
+                    telemetry.addData("status" ,"im a child");
+                    telemetry.update();
+                }
+                else if (currentPosition == ArmState.LEFT){
+                    GOATEDservo.setPosition(0.56);
+                    telemetry.addData("status","schoolbus is cool");
+                    telemetry.update();
+
+                }
+
+
+
+            }
     }
-}
+        }
