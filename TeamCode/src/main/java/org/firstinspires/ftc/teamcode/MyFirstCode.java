@@ -14,7 +14,7 @@ public class MyFirstCode extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Servo GOATEDservo;
+        Servo GOATEDservo
             GOATEDservo = hardwareMap.get(Servo.class, "servo_zero");
         ArmState currentPosition = ArmState.LEFT;
 
